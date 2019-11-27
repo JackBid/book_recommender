@@ -28,12 +28,14 @@ def rate(user_id, book_id, rating):
 
     global ratings_data
 
-    for index, row in ratings_data.iterrows():
-        if row['user_id'] == user_id and row['book_id'] == book_id:
-            row['rating'] = rating
+    user_id_indicies = ratings_data.user_id[ratings_data['user_id'] == user_id].index.tolist()
+
+    for index in user_id_indicies:
+        if ratings_data.iloc[index][1] == book_id:
+            ratings_data.iloc[index][2] = rating
             return
 
-    ratings_data = ratings_data.append({'user_id' : user_id, 'book_id' : book_id, 'rating': rating} , ignore_index=True)
+    ratings_data = ratings_data.append({'user_id': user_id, 'book_id': book_id, 'rating': rating}, ignore_index=True)
 
 print(ratings_data.head())
 
