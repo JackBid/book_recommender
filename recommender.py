@@ -1,8 +1,13 @@
 import numpy as np
 import pandas as pd 
 
+from user_profile import UserProfile
+
 pd.set_option('display.max_columns', None)
 
+'''
+Generate the correct data tables
+'''
 def getGenreData():
     
     book_data = pd.read_csv('res/books.csv')
@@ -18,13 +23,18 @@ def getGenreData():
 
     return genres
 
-ratings_data = pd.read_csv('res/ratings.csv')
-genre_data = getGenreData()
-
+'''
+Create a new unique user ID
+'''
 def newUserId():
     return ratings_data['user_id'].max() + 1
-    
-def rate(user_id, book_id, rating):
+
+'''
+Given a user, book_id and rating update the rating table and the user_profile ratings
+'''
+def rate(user, book_id, rating):
+
+    user_id = user.id
 
     global ratings_data
 
@@ -36,12 +46,19 @@ def rate(user_id, book_id, rating):
             return
 
     ratings_data = ratings_data.append({'user_id': user_id, 'book_id': book_id, 'rating': rating}, ignore_index=True)
+    user.ratings.append({'user_id': user_id, 'book_id': book_id, 'rating': rating})
+
+ratings_data = pd.read_csv('res/ratings.csv')
+genre_data = getGenreData()
 
 print(ratings_data.head())
 
-rate(2, 2318, 5)
+i = newUserId()
+jack = UserProfile(i)
+rate(jack, 2318, 5)
 
 print(ratings_data.head())
+print(jack.ratings)
 '''
 print('\n')
 print(genre_data.head())'''
