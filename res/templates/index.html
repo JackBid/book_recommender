@@ -1,0 +1,11 @@
+<html>
+    <head>
+        <title>Book Recommender</title>
+    </head>
+    <body>
+        <h1>You may also like...</h1>
+        {% for title in titles %}
+        <div><p>{{ title }}</p></div>
+        {% endfor %}
+    </body>
+</html>
