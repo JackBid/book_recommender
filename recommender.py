@@ -35,31 +35,33 @@ Given a user, book_id and rating update the rating table and the user_profile ra
 def rate(user, book_id, rating):
 
     user_id = user.id
-
     global ratings_data
 
+    # Get the indicies of books the user has rated
     user_id_indicies = ratings_data.user_id[ratings_data['user_id'] == user_id].index.tolist()
 
+    # If already rated, update the user rating
     for index in user_id_indicies:
         if ratings_data.iloc[index][1] == book_id:
             ratings_data.iloc[index][2] = rating
             return
-
+        
+    # Add a new rating
     ratings_data = ratings_data.append({'user_id': user_id, 'book_id': book_id, 'rating': rating}, ignore_index=True)
+
+    # Update the user profile rating list
     user.ratings.append({'user_id': user_id, 'book_id': book_id, 'rating': rating})
 
+# Create the tables 
 ratings_data = pd.read_csv('res/ratings.csv')
 genre_data = getGenreData()
 
 print(ratings_data.head())
 
+# Create a new user profile and add a rating
 i = newUserId()
 jack = UserProfile(i)
 rate(jack, 2318, 5)
 
 print(ratings_data.head())
 print(jack.ratings)
-'''
-print('\n')
-print(genre_data.head())'''
-
