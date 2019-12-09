@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd 
 
 from user_profile import UserProfile
+from collaborative_filtering import collaborative_filter
 
 pd.set_option('display.max_columns', None)
 
@@ -10,14 +11,24 @@ Generate the correct data tables
 '''
 def getGenreData():
     
+    # has 10,000
     book_data = pd.read_csv('res/books.csv')
+    
+    # use goodreads ids
     book_tag_data = pd.read_csv('res/book_tags.csv')
+
+    # has only tag_id and genre
     tag_data = pd.read_csv('res/tags.csv')
 
-    genres_full = pd.merge(book_tag_data, tag_data, on='tag_id')
+    book_tag_data.set_index('tag_id', inplace=True)
+    tag_data.set_index('tag_id', inplace=True)
+    genres_full = book_tag_data.join(tag_data, how='left')
 
-    a = book_data[['book_id', 'goodreads_book_id', 'original_title']].head()
-    genres_full = pd.merge(genres_full, a, on='goodreads_book_id')
+    a = book_data[['book_id', 'goodreads_book_id', 'original_title']]
+
+    a.set_index('goodreads_book_id', inplace=True)
+    genres_full.set_index('goodreads_book_id', inplace=True)
+    genres_full = a.join(genres_full, how='left')
 
     genres = genres_full[['book_id', 'original_title', 'tag_name']]
 
@@ -56,12 +67,10 @@ def rate(user, book_id, rating):
 ratings_data = pd.read_csv('res/ratings.csv')
 genre_data = getGenreData()
 
-print(ratings_data.head())
-
 # Create a new user profile and add a rating
 i = newUserId()
 jack = UserProfile(i)
-rate(jack, 2318, 5)
+rate(jack, 100, 5)
 
-print(ratings_data.head())
-print(jack.ratings)
+recommendations = collaborative_filter(jack.ratings, ratings_data, genre_data)
+print(recommendations)
