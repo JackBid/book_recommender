@@ -45,8 +45,8 @@ Given a user, book_id and rating update the rating table and the user_profile ra
 '''
 def rate(user, book_id, rating):
 
-    user_id = user.id
     global ratings_data
+    user_id = user.id
 
     # Get the indicies of books the user has rated
     user_id_indicies = ratings_data.user_id[ratings_data['user_id'] == user_id].index.tolist()
@@ -63,6 +63,17 @@ def rate(user, book_id, rating):
     # Update the user profile rating list
     user.ratings.append({'user_id': user_id, 'book_id': book_id, 'rating': rating})
 
+def getTitlesFromBookIds(bookIds):
+
+    titles = []
+
+    for book_id in bookIds:
+        row = genre_data[genre_data['book_id'] == book_id].iloc[0]
+        titles.append(row.get(key = 'original_title'))
+
+    return titles
+
+
 # Create the tables 
 ratings_data = pd.read_csv('res/ratings.csv')
 genre_data = getGenreData()
@@ -70,7 +81,9 @@ genre_data = getGenreData()
 # Create a new user profile and add a rating
 i = newUserId()
 jack = UserProfile(i)
-rate(jack, 100, 5)
+rate(jack, 1, 5)
 
-recommendations = collaborative_filter(jack.ratings, ratings_data, genre_data)
-print(recommendations)
+recommended_ids = collaborative_filter(jack.ratings, ratings_data, genre_data)
+recommendad_titles = getTitlesFromBookIds(recommended_ids)
+print(recommended_ids)
+print(recommendad_titles)
