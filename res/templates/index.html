@@ -20,14 +20,26 @@
             </form>
         </div>
 
-        <div class='recommendations'>
-            {% if titles %}
+        <div class='user_profile'>
+            <h2>User Profile</h2>
+            <ul>
+            {% for rating in user_ratings %}
+                <li>
+                    <p>Book: {{ rating.book_id }}</p>
+                    <p>Rating: {{ rating.rating }}</p>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+
+        {% if titles %}
+            <div class='recommendations'>
                 <h2>You may also like...</h2>
                 {% for title in titles %}
                 <div><p>{{ title }}</p></div>
                 {% endfor %}
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
 
     </body>
 </html>

@@ -8,3 +8,8 @@ class UserProfile():
 
     def addRating(self, book_id, rating):
         self.ratings.append({'user_id': self.id, 'book_id': book_id, 'rating': rating})     
+
+    def updateRating(self, book_id, rating):
+        for user_rating in self.ratings:
+            if user_rating['book_id'] == book_id:
+                user_rating['rating'] = rating

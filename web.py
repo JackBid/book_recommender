@@ -36,14 +36,15 @@ def home():
         rating = form.rating.data
 
         recommender.rate(user_profile, book_id, rating)
+
         recommendedIds = collaborative_filter(user_profile.ratings, recommender.ratings_data, recommender.genre_data)
 
         titles = recommender.getTitlesFromBookIds(recommendedIds)
 
     if titles is None:
-        return render_template('index.html', form=form)
+        return render_template('index.html', form=form, user_ratings=user_profile.ratings)
     
-    return render_template('index.html', form=form, titles=titles)
+    return render_template('index.html', form=form, titles=titles, user_ratings=user_profile.ratings)
 
 
 

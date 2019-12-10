@@ -54,6 +54,13 @@ class Recommender():
 
         # If already rated, update the user rating
         for index in user_id_indicies:
+            # Updte user profile
+            if self.ratings_data.iloc[index][0] == user_id:
+                print('update rating')
+                print(rating)
+                user.updateRating(book_id, rating)
+            
+            # Update ratings table
             if self.ratings_data.iloc[index][1] == book_id:
                 self.ratings_data.iloc[index][2] = rating
                 return
