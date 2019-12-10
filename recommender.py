@@ -78,3 +78,13 @@ class Recommender():
             titles.append(row.get(key = 'original_title'))
 
         return titles
+
+'''
+recommender = Recommender()
+user = UserProfile(recommender.newUserId)
+
+recommender.rate(user, 100, 5)
+
+ids = collaborative_filter(user.ratings, recommender.ratings_data, recommender.genre_data)
+
+print(recommender.getTitlesFromBookIds(ids))'''

@@ -6,6 +6,9 @@ and returns a list of ratings
 '''
 def collaborative_filter(user_ratings, ratings_data, genre_data):
 
+    print(user_ratings)
+    print(len(genre_data))
+
     ''' 
     1. Which users had similar ratings?
     '''
@@ -13,8 +16,13 @@ def collaborative_filter(user_ratings, ratings_data, genre_data):
     
     # Select users that gave the book the same rating
     for user_rating in user_ratings:
-        rows = ratings_data[(ratings_data['book_id'] == user_rating['book_id']) & (ratings_data['rating'] == user_rating['rating'])]
+
+        a = int(user_rating['book_id'])
+        b = int(user_rating['rating'])
+        rows = ratings_data[(ratings_data['book_id'] == a) & (ratings_data['rating'] == b)]
         similar_users.extend(rows['user_id'].tolist())
+
+    print(similar_users)
 
     '''
     2. What did similar users also like?
@@ -45,4 +53,5 @@ def collaborative_filter(user_ratings, ratings_data, genre_data):
             if recommendation[0] != user_rating['rating']:
                 unique_recommendations.append(recommendation[0])
 
+    print(unique_recommendations)
     return unique_recommendations
