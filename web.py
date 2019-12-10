@@ -23,24 +23,28 @@ recommender = Recommender()
 user_id = recommender.newUserId()
 user_profile = UserProfile(user_id)
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
+
     form = RatingFormID()
-    return render_template('rating_form.html', form=form)
+    titles = None
+
+    # If form has been submitted
+    if form.validate_on_submit():
+        # Get form inputs
+        book_id = form.book_id.data
+        rating = form.rating.data
+
+        recommender.rate(user_profile, book_id, rating)
+        recommendedIds = collaborative_filter(user_profile.ratings, recommender.ratings_data, recommender.genre_data)
+
+        titles = recommender.getTitlesFromBookIds(recommendedIds)
+
+    if titles is None:
+        return render_template('index.html', form=form)
     
+    return render_template('index.html', form=form, titles=titles)
 
-@app.route('/recommendations', methods=['GET', 'POST'])
-def recommendations():
-
-    book_id = request.form['book_id']
-    rating = request.form['rating']
-
-    recommender.rate(user_profile, book_id, rating)
-    recommendedIds = collaborative_filter(user_profile.ratings, recommender.ratings_data, recommender.genre_data)
-
-    titles = recommender.getTitlesFromBookIds(recommendedIds)
-
-    return render_template('index.html', titles=titles)
 
 
 if __name__ == '__main__':

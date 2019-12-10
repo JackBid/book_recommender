@@ -3,9 +3,31 @@
         <title>Book Recommender</title>
     </head>
     <body>
-        <h1>You may also like...</h1>
-        {% for title in titles %}
-        <div><p>{{ title }}</p></div>
-        {% endfor %}
+
+        <div class='rating_form'>
+            <h2>Add a rating</h2>
+            <form action="" method="post" novalidate>
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.book_id.label }}<br>
+                    {{ form.book_id(size=32) }}
+                </p>
+                <p>
+                    {{ form.rating.label }}<br>
+                    {{ form.rating(size=1) }}
+                </p>
+                <p>{{ form.submit() }}</p>
+            </form>
+        </div>
+
+        <div class='recommendations'>
+            {% if titles %}
+                <h2>You may also like...</h2>
+                {% for title in titles %}
+                <div><p>{{ title }}</p></div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
     </body>
 </html>
