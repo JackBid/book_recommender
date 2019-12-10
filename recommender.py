@@ -18,13 +18,8 @@ class Recommender():
     '''
     def getGenreData(self):
         
-        # has 10,000
-        book_data = pd.read_csv('res/bookData/books.csv')
-        
-        # use goodreads ids
+        book_data = pd.read_csv('res/bookData/books.csv', )
         book_tag_data = pd.read_csv('res/bookData/book_tags.csv')
-
-        # has only tag_id and genre
         tag_data = pd.read_csv('res/bookData/tags.csv')
 
         book_tag_data.set_index('tag_id', inplace=True)
