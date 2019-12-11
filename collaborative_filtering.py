@@ -38,9 +38,13 @@ def collaborative_filter(user_ratings, ratings_data, genre_data):
     unique_recommendations = []
 
     for recommendation in sorted_recommendation:
+        if recommendation not in unique_recommendations:
+            unique_recommendations.append(recommendation[0])
+    
+    for recommendation in unique_recommendations:
         for rating in user_ratings:
-            if recommendation[0] != user_rating['rating'] and recommendation[0] not in unique_recommendations:
-                unique_recommendations.append(recommendation[0])
+            if recommendation == rating['book_id']:
+                unique_recommendations.remove(recommendation)
     
     if len(unique_recommendations) < 10:
         return unique_recommendations

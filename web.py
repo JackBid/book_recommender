@@ -29,28 +29,29 @@ def home():
 
     form = RatingFormID()
     titles = None
+    message = ''
 
-    # If form has been submitted
+    # If form has been submitted update the user profile
     if form.validate_on_submit():
         # Get form inputs
         book_title = form.book_title.data
         book_id = recommender.titleToBookId(book_title)
+        rating = form.rating.data
         
         if book_id == -1:
-            return render_template('index.html', form=form, user_ratings=user_profile.ratings, found=False)
+            message = 'Sorry, we cannot find "' + str(book_title) + '" in our database.'
+        elif rating <= 0 or rating > 5:
+            message = 'Please enter a number 1-5 for rating.'
+        else:
+            recommender.rate(user_profile, book_id, rating, book_title)
 
-        rating = form.rating.data
-
-        recommender.rate(user_profile, book_id, rating, book_title)
-
-        recommendedIds = collaborative_filter(user_profile.ratings, recommender.ratings_data, recommender.genre_data)
-
-        titles = recommender.getTitlesFromBookIds(recommendedIds)
+    recommendedIds = collaborative_filter(user_profile.ratings, recommender.ratings_data, recommender.genre_data)
+    titles = recommender.getTitlesFromBookIds(recommendedIds)
 
     if titles is None:
-        return render_template('index.html', form=form, user_ratings=user_profile.ratings, found=True)
+        return render_template('index.html', form=form, user_ratings=user_profile.ratings, message=message)
     
-    return render_template('index.html', form=form, titles=titles, user_ratings=user_profile.ratings, found=True)
+    return render_template('index.html', form=form, titles=titles, user_ratings=user_profile.ratings, message=message)
 
 
 

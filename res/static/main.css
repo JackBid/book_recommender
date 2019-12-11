@@ -5,3 +5,27 @@
 .recommendations {
     margin-bottom: 50px;
 }
+
+.rating_form,
+.user_profile {
+    padding-bottom: 30px;
+    border-bottom: 1px solid #aaa;
+}
+
+.information {
+    margin-top: 20px;
+}
+
+input[type=submit] {
+    background-color: #007bff;
+    border-radius: 4px;
+    border: none;
+    text-decoration: none;
+    color: white;
+    padding: 10px 10px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #075eba;
+}

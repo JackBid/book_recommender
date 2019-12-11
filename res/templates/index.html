@@ -12,27 +12,42 @@
         </nav>
 
         <div class='rating_form container'>
-            <h2>Add a rating</h2>
-            <form action="" method="post" novalidate>
-                {{ form.hidden_tag() }}
-                <p>
-                    {{ form.book_title.label }}<br>
-                    {{ form.book_title(size=32) }}
-                </p>
-                <p>
-                    {{ form.rating.label }}<br>
-                    {{ form.rating(size=1) }}
-                </p>
-                <p>{{ form.submit() }}</p>
-            </form>
+            <div class='row'>
+                <div class='form col-md'>
+                    <h2>Add a rating</h2>
+                    <form action="" method="post" novalidate>
+                        {{ form.hidden_tag() }}
+                        <p>
+                            {{ form.book_title.label }}<br>
+                            {{ form.book_title(size=32) }}
+                        </p>
+                        <p>
+                            {{ form.rating.label }}<br>
+                            {{ form.rating(size=1) }}
+                        </p>
+                        <p>{{ form.submit() }}</p>
+                    </form>
+                </div>
+
+                <div class='information col-md'>
+                    <p>Enter a book title such as:</p>
+                    <ul>
+                        <li>Little Women</li>
+                        <li>The Hunger Games</li>
+                        <li>The Help</li>
+                    </ul>
+                    <p>The dataset is <a href='https://github.com/zygmuntz/goodbooks-10k'>goodbooks-10k</a>, which provides 6 million ratings for ten thousand books.</p>
+                </div>
+            </div>
+            {% if message %}
+            <div class='message'>
+                <h4>{{ message }}</h4>
+            </div>
+            {% endif %}
         </div>
 
-        {% if not found %}
-        <div class='not_found container'>
-            <h3>Sorry, we can't find that book.</h3>
-        </div>
-        {% endif %}
 
+        {% if user_ratings %}
         <div class='user_profile container'>
             <h2>User Profile</h2>
 
@@ -45,6 +60,7 @@
             {% endfor %}
             </ul>
         </div>
+        {% endif %}
 
         {% if titles %}
             <div class='recommendations container'>
