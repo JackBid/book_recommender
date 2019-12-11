@@ -45,7 +45,7 @@ class Recommender():
     '''
     Given a user, book_id and rating update the rating table and the user_profile ratings
     '''
-    def rate(self, user, book_id, rating):
+    def rate(self, user, book_id, rating, title):
 
         user_id = user.id
 
@@ -56,8 +56,6 @@ class Recommender():
         for index in user_id_indicies:
             # Updte user profile
             if self.ratings_data.iloc[index][0] == user_id:
-                print('update rating')
-                print(rating)
                 user.updateRating(book_id, rating)
             
             # Update ratings table
@@ -69,7 +67,21 @@ class Recommender():
         self.ratings_data = self.ratings_data.append({'user_id': user_id, 'book_id': book_id, 'rating': rating}, ignore_index=True)
 
         # Update the user profile rating list
-        user.ratings.append({'user_id': user_id, 'book_id': book_id, 'rating': rating})
+        user.ratings.append({'user_id': user_id, 'book_id': book_id, 'rating': rating, 'title': title})
+
+    def titleToBookId(self, title):
+        try:
+            row = self.genre_data[self.genre_data['original_title'] == title].iloc[0]
+        except:
+            return -1
+        return row.get(key = 'book_id')
+
+    def idToBookTitle(self, id):
+        try:
+            row = self.genre_data[self.genre_data['book_id'] == id].iloc[0]
+        except:
+            return -1
+        return row.get(key = 'original_title')
 
     def getTitlesFromBookIds(self, bookIds):
 
@@ -82,7 +94,6 @@ class Recommender():
         return titles
 
 '''
-recommender = Recommender()
 user = UserProfile(recommender.newUserId)
 
 recommender.rate(user, 100, 5)

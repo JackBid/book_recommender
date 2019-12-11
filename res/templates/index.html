@@ -1,16 +1,23 @@
 <html>
     <head>
         <title>Book Recommender</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='main.css') }}">
     </head>
     <body>
+        
+        <!-- Navbar-->
+        <nav class="navbar navbar-dark bg-dark">
+            <span class="navbar-brand mb-0 h1">Book Recommender</span>
+        </nav>
 
-        <div class='rating_form'>
+        <div class='rating_form container'>
             <h2>Add a rating</h2>
             <form action="" method="post" novalidate>
                 {{ form.hidden_tag() }}
                 <p>
-                    {{ form.book_id.label }}<br>
-                    {{ form.book_id(size=32) }}
+                    {{ form.book_title.label }}<br>
+                    {{ form.book_title(size=32) }}
                 </p>
                 <p>
                     {{ form.rating.label }}<br>
@@ -20,12 +27,19 @@
             </form>
         </div>
 
-        <div class='user_profile'>
+        {% if not found %}
+        <div class='not_found container'>
+            <h3>Sorry, we can't find that book.</h3>
+        </div>
+        {% endif %}
+
+        <div class='user_profile container'>
             <h2>User Profile</h2>
-            <ul>
+
+            <ul class="list-group list-group-horizontal">
             {% for rating in user_ratings %}
-                <li>
-                    <p>Book: {{ rating.book_id }}</p>
+                <li class="list-group-item">
+                    <p>Book: {{ rating.title }}</p>
                     <p>Rating: {{ rating.rating }}</p>
                 </li>
             {% endfor %}
@@ -33,11 +47,13 @@
         </div>
 
         {% if titles %}
-            <div class='recommendations'>
+            <div class='recommendations container'>
                 <h2>You may also like...</h2>
+                <ul class='list-group'>
                 {% for title in titles %}
-                <div><p>{{ title }}</p></div>
+                    <li class='list-group-item'>{{title}}</li>
                 {% endfor %}
+                </ul>
             </div>
         {% endif %}
 
