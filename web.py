@@ -53,7 +53,13 @@ def home():
     
     return render_template('index.html', form=form, titles=titles, user_ratings=user_profile.ratings, message=message)
 
-
+@app.route('/reset_profile')
+def resetUserProfle():
+    global user_profile
+    user_id = recommender.newUserId()
+    user_profile = UserProfile(user_id)
+    print('profile reset')
+    return 'reset profile'
 
 if __name__ == '__main__':
     app.run()

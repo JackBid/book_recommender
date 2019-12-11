@@ -42,7 +42,7 @@ def collaborative_filter(user_ratings, ratings_data, genre_data):
             unique_recommendations.append(recommendation[0])
     
     for recommendation in unique_recommendations:
-        for rating in user_ratings:
+        for rating in user_ratings:           
             if recommendation == rating['book_id']:
                 unique_recommendations.remove(recommendation)
     

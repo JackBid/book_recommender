@@ -2,7 +2,7 @@
     <head>
         <title>Book Recommender</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='main.css') }}">
+        <link rel= "stylesheet" type= "text/css" href="{{ url_for('static',filename='main.css') }}">
     </head>
     <body>
         
@@ -47,20 +47,24 @@
         </div>
 
 
-        {% if user_ratings %}
+        
         <div class='user_profile container'>
             <h2>User Profile</h2>
-
-            <ul class="list-group list-group-horizontal">
-            {% for rating in user_ratings %}
-                <li class="list-group-item">
-                    <p>Book: {{ rating.title }}</p>
-                    <p>Rating: {{ rating.rating }}</p>
-                </li>
-            {% endfor %}
-            </ul>
+            <button type="button" class="btn btn-danger reset_profile_button">reset</button>
+            {% if user_ratings %}
+                <ul class="list-group list-group-horizontal">
+                {% for rating in user_ratings %}
+                    <li class="list-group-item">
+                        <p>Book: {{ rating.title }}</p>
+                        <p>Rating: {{ rating.rating }}</p>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>No user profile information found - add some ratings!</p>
+            {% endif %}
         </div>
-        {% endif %}
+        
 
         {% if titles %}
             <div class='recommendations container'>
@@ -72,6 +76,8 @@
                 </ul>
             </div>
         {% endif %}
-
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="{{ url_for('static',filename='reset.js') }}"></script>
     </body>
 </html>

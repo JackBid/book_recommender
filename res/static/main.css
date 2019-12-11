@@ -12,6 +12,19 @@
     border-bottom: 1px solid #aaa;
 }
 
+.user_profile h2 {
+    display: inline;
+}
+
+.user_profile ul {
+    margin-top: 25px;
+}
+
+.reset_profile_button {
+    display: inline;
+    float: right;
+}
+
 .information {
     margin-top: 20px;
 }
