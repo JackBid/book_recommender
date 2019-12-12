@@ -13,3 +13,6 @@ class UserProfile():
         for user_rating in self.ratings:
             if user_rating['book_id'] == book_id:
                 user_rating['rating'] = rating
+
+    def removeRating(self, index):
+        del self.ratings[index]

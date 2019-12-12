@@ -52,11 +52,12 @@
             <h2>User Profile</h2>
             <button type="button" class="btn btn-danger reset_profile_button">reset</button>
             {% if user_ratings %}
-                <ul class="list-group list-group-horizontal">
+                <ul class="profile_items list-group list-group-horizontal">
                 {% for rating in user_ratings %}
-                    <li class="list-group-item">
+                    <li class="list-group-item" id="profile_item_{{ loop.index }}">
                         <p>Book: {{ rating.title }}</p>
                         <p>Rating: {{ rating.rating }}</p>
+                        <a href="#" class="badge badge-danger remove_rating_button">Remove</a>
                     </li>
                 {% endfor %}
                 </ul>
